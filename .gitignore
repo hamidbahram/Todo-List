@@ -91,6 +91,7 @@ local_settings.py
 
 #migration files
 migrations/
+uploads/
 
 #media files
 media/

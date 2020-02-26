@@ -12,10 +12,21 @@ class Category(models.Model):
     def __str__(self):
         return "{}".format(self.name)
 
+
+class File(models.Model):
+    name_files   = models.FileField(upload_to='uploads/%Y/%m/%d/')
+
+    class Meta:
+        verbose_name = ("File")
+        verbose_name_plural = ("Files")
+
+    def __str__(self):
+        return "{}".format(self.name_files) 
+
 class Task(models.Model):
     title       = models.CharField(max_length=100)
     content     = models.TextField()
-    name_file   = models.FileField(upload_to='uploads/%Y/%m/%d/')
+    name_file   = models.ForeignKey(File, on_delete=models.CASCADE) 
     create      = models.DateTimeField(auto_now_add=True, auto_now=False)
     update      = models.DateTimeField(auto_now_add=False, auto_now=True)
     due_date    = models.DateField(default=timezone.now().strftime("%Y-%m-%d"))
@@ -28,12 +39,3 @@ class Task(models.Model):
     def __str__(self):
         return "{}".format(self.title )
    
-class File(models.Model):
-    name_file = models.ForeignKey(Task, on_delete=models.CASCADE) 
-
-    class Meta:
-        verbose_name = ("File")
-        verbose_name_plural = ("Files")
-
-    def __str__(self):
-        return "{}".format(self.name_file) 
