@@ -33,6 +33,12 @@ class AdminFile(admin.ModelAdmin):
 
 @admin.register(Task)
 class AdminTask(admin.ModelAdmin):
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(AdminTask, self).get_form(request, obj, **kwargs)
+        form.base_fields['user'].initial = request.user
+        return form
+
     list_display        = ('title', 'create', 'user', 'status_type',)
     list_editable       = ('title',)
     list_display_links  = ('create',)
@@ -50,6 +56,6 @@ class AdminTask(admin.ModelAdmin):
                         "fields": ('due_date',)
                     }),
                     ('detail information', {
-                        "fields": ('category', 'user', 'status')
+                        "fields": ('category', 'user', 'status_type')
                     }),
-                )
+                )              
