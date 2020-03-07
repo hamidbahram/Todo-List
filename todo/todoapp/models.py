@@ -26,9 +26,9 @@ class File(models.Model):
 
 
 class Task(models.Model):
-    TODO = 1
+    TODO  = 1
     DOING = 2
-    DONE = 3
+    DONE  = 3
 
     types = (
         (TODO, 'todo'),

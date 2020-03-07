@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Task, Category, File
+from .models import Task, Category, File, User
 
 
 class CategoryTabolarInline(admin.TabularInline):
@@ -34,10 +34,20 @@ class AdminFile(admin.ModelAdmin):
 @admin.register(Task)
 class AdminTask(admin.ModelAdmin):
 
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(AdminTask, self).get_form(request, obj, **kwargs)
-        form.base_fields['user'].initial = request.user
-        return form
+    # def get_form(self, request, obj=None, **kwargs):
+    #     form = super(AdminTask, self).get_form(request, obj, **kwargs)
+    #     form.base_fields['user'].initial = request.user
+    #     return form
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'user':
+            kwargs['queryset'] = User.objects.filter(username=request.user.username)
+        return super(AdminTask, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is not None:
+            return self.readonly_fields + ('user',)
+        return self.readonly_fields
 
     list_display        = ('title', 'create', 'user', 'status_type',)
     list_editable       = ('title',)
@@ -45,7 +55,8 @@ class AdminTask(admin.ModelAdmin):
     list_filter         = ('create', 'status_type',)
     search_fields       = ('title', 'content',)
     date_hierarchy      = ('create')
-    actions             = [change_to_todo, change_to_done, change_to_doing]
+    actions             = [change_to_todo, change_to_doing,change_to_done ]
+    # readonly_fields     = ['user',]
     # exclude           = ('user',)
     # inlines           = [CategoryTabolarInline]
     fieldsets           = (
