@@ -15,14 +15,14 @@ class Category(models.Model):
 
 
 class File(models.Model):
-    name_files = models.FileField(upload_to='uploads/%Y/%m/%d/')
+    files = models.FileField(upload_to='uploads/%y-%m-%d_%H:%M')
 
     class Meta:
         verbose_name = ("File")
         verbose_name_plural = ("Files")
 
     def __str__(self):
-        return "{}".format(self.name_files)
+        return "{}".format(self.files)
 
 
 class Task(models.Model):
