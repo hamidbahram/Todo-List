@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # apps
     'todoapp',
+
+    # api
+    'django_filters', # for use DjangoFilterBackend in filtering apis
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

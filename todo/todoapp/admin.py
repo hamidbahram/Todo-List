@@ -2,7 +2,8 @@ from django.contrib import admin
 from .models import Task, Category, File, User
 
 
-class CategoryTabolarInline(admin.TabularInline):
+class TaskTabolarInline(admin.TabularInline):
+    # model = Task
     pass
 
 
@@ -23,6 +24,7 @@ change_to_done.short_description = "selected task as change to done"
 
 @admin.register(Category)
 class AdminCategory(admin.ModelAdmin):
+    # inlines = [TaskTabolarInline]
     pass
 
 
@@ -58,7 +60,6 @@ class AdminTask(admin.ModelAdmin):
     actions             = [change_to_todo, change_to_doing,change_to_done ]
     # readonly_fields     = ['user',]
     # exclude           = ('user',)
-    # inlines           = [CategoryTabolarInline]
     fieldsets           = (
                     ('information', {
                         "fields": ('title', 'content', 'name_file')
