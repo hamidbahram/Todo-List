@@ -4,7 +4,7 @@ from todoapp.models import Task
 class TaskCreateSerializer(ModelSerializer):
     class Meta:
         model = Task
-        fields = '__all__'
+        exclude = ('user',)
 
 class TaskListSerializer(ModelSerializer):
     class Meta:
@@ -24,4 +24,4 @@ class TaskDeleteSerializer(ModelSerializer):
 class TaskDeleteUpdateSerializer(ModelSerializer):
     class Meta:
         model = Task
-        fields = '__all__'
+        exclude = ('user',)
