@@ -30,7 +30,7 @@ class AdminCategory(admin.ModelAdmin):
 
 @admin.register(File)
 class AdminFile(admin.ModelAdmin):
-    pass
+   list_display = ('task', 'attach_files',)
 
 
 @admin.register(Task)
@@ -62,7 +62,7 @@ class AdminTask(admin.ModelAdmin):
     # exclude           = ('user',)
     fieldsets           = (
                     ('information', {
-                        "fields": ('title', 'content', 'name_file')
+                        "fields": ('title', 'content',)
                     }),
                     ('time', {
                         "fields": ('due_date',)
