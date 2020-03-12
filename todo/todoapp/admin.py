@@ -2,9 +2,6 @@ from django.contrib import admin
 from .models import Task, Category, File, User
 
 
-class TaskTabolarInline(admin.TabularInline):
-    # model = Task
-    pass
 
 
 def change_to_todo(modeladmin, request, queryset):
@@ -22,9 +19,12 @@ def change_to_done(modeladmin, request, queryset):
 change_to_done.short_description = "selected task as change to done"
 
 
+class TaskTabolarInline(admin.TabularInline):
+    model = File
+
+
 @admin.register(Category)
 class AdminCategory(admin.ModelAdmin):
-    # inlines = [TaskTabolarInline]
     pass
 
 
@@ -58,6 +58,7 @@ class AdminTask(admin.ModelAdmin):
     search_fields       = ('title', 'content',)
     date_hierarchy      = ('create')
     actions             = [change_to_todo, change_to_doing,change_to_done ]
+    inlines             = [TaskTabolarInline]
     # readonly_fields     = ['user',]
     # exclude           = ('user',)
     fieldsets           = (
