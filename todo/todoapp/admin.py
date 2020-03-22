@@ -5,17 +5,17 @@ from .models import Task, Category, File, User
 
 
 def change_to_todo(modeladmin, request, queryset):
-    queryset.update(status_type=Task.TODO)
+    queryset.update(_status_type=Task.TODO)
 change_to_todo.short_description = "selected task as change to todo"
 
 
 def change_to_doing(modeladmin, request, queryset):
-    queryset.update(status_type=Task.DOING)
+    queryset.update(_status_type=Task.DOING)
 change_to_doing.short_description = "selected task as change to doing"
 
 
 def change_to_done(modeladmin, request, queryset):
-    queryset.update(status_type=Task.DONE)
+    queryset.update(_status_type=Task.DONE)
 change_to_done.short_description = "selected task as change to done"
 
 
@@ -51,10 +51,10 @@ class AdminTask(admin.ModelAdmin):
             return self.readonly_fields + ('user',)
         return self.readonly_fields
 
-    list_display        = ('title', 'create', 'user', 'status_type',)
+    list_display        = ('title', 'create', 'user', '_status_type',)
     list_editable       = ('title',)
     list_display_links  = ('create',)
-    list_filter         = ('create', 'status_type',)
+    list_filter         = ('create', '_status_type',)
     search_fields       = ('title', 'content',)
     date_hierarchy      = ('create')
     actions             = [change_to_todo, change_to_doing,change_to_done ]
@@ -69,6 +69,6 @@ class AdminTask(admin.ModelAdmin):
                         "fields": ('due_date',)
                     }),
                     ('detail information', {
-                        "fields": ('category', 'user', 'status_type')
+                        "fields": ('category', 'user', '_status_type')
                     }),
                 )              

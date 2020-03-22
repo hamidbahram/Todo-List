@@ -27,14 +27,14 @@ class Task(models.Model):
         (DONE, 'done'),
     )
 
-    title       = models.CharField(max_length=100)
-    content     = models.TextField()
-    create      = models.DateTimeField(auto_now_add=True, auto_now=False)
-    update      = models.DateTimeField(auto_now_add=False, auto_now=True)
-    due_date    = models.DateField(default=timezone.now().strftime("%Y-%m-%d"))
-    category    = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user        = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    status_type = models.SmallIntegerField(choices=types)
+    title        = models.CharField(max_length=100)
+    content      = models.TextField()
+    create       = models.DateTimeField(auto_now_add=True, auto_now=False)
+    update       = models.DateTimeField(auto_now_add=False, auto_now=True)
+    due_date     = models.DateField(default=timezone.now().strftime("%Y-%m-%d"))
+    category     = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user         = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    _status_type = models.SmallIntegerField(choices=types)
 
     class Meta:
         ordering = ["-create"]
@@ -42,9 +42,17 @@ class Task(models.Model):
     def __str__(self):
         return "{}".format(self.title)
 
+    @property
+    def status(self):
+        return dict(self.types)[self._status_type]
+
+    @status.setter
+    def status(self, staus_types):
+        reversed_types = {v:k for k,v in dict(self.types).items()}
+        self._status_type = reversed_types.get(staus_types)
 
 class File(models.Model):
-    task  = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
+    task         = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
     attach_files = models.FileField(upload_to='uploads/%y-%m-%d_%H:%M', null=True)
 
     class Meta:
