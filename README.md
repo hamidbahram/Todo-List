@@ -4,7 +4,7 @@ installation
 --------------------
 - requirements:
 - python 3.6 install following packages via **pip** or **easy_install**
-- `pip install requirements.txt`
+- `pip install -r requirements.txt`
 -  or
 - `pip install Django==2.2.6`
 - `pip install djangorestframework==3.5.2`
